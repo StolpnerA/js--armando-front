@@ -3,7 +3,7 @@ import { Message } from 'element-ui';
 // import store from '@/store';
 
 const baseAxios = axios.create({
-  baseURL: '/api/armando',
+  baseURL: 'https://js--diplom-backend.herokuapp.com/',
   timeout: 30000,
 });
 
