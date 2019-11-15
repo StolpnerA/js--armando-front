@@ -9,6 +9,7 @@
         @select-item="selectItem({name: 'Task', ...$event})"
         @create-item="createNewTask"
         @edit-item="editTaskData"
+        @change-status="changeTaskStatus"
         @delete-item="deleteTaskData"
         @get-data="getTasksData"
       />
@@ -21,6 +22,7 @@
         @select-item="selectItem({name: 'Todo', ...$event})"
         @create-item="createNewTodo"
         @edit-item="editTodoData"
+        @change-status="changeTodoStatus"
         @delete-item="deleteTodoData"
         @get-data="getTasksData"
       />
@@ -78,6 +80,11 @@ export default {
       await editTask(data);
       this.getTasksData();
     },
+    async changeTaskStatus(data) {
+      this.tasksLoading = true;
+      await editTask(data);
+      this.getTasksData();
+    },
     async deleteTaskData(id) {
       this.clearTask();
       this.tasksLoading = true;
@@ -94,9 +101,15 @@ export default {
       await createTodo(description, this.selectedTask.id);
       await this.getTodoData(this.selectedTask.id);
     },
-    async editTodoData(description, todoId) {
+    async editTodoData(data) {
+      this.selectedTodo = null;
       this.todoLoading = true;
-      await editTodo(description, todoId);
+      await editTodo(data);
+      await this.getTodoData(this.selectedTask.id);
+    },
+    async changeTodoStatus(data) {
+      this.todoLoading = true;
+      await editTodo(data);
       await this.getTodoData(this.selectedTask.id);
     },
     async deleteTodoData(todoId) {
@@ -118,7 +131,8 @@ export default {
 .home {
   &__cards {
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    grid-template-columns: repeat(3, 400px);
     grid-column-gap: 40px;
     grid-template-rows: 75vh;
   }

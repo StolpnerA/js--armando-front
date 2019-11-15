@@ -44,7 +44,11 @@ export default {
   },
   methods: {
     saveData() {
-      this.$emit('save', this.textAreaText, this.data && this.data.id);
+      this.$emit('save', {
+        description: this.textAreaText,
+        todoId: this.data && this.data.id,
+        status: this.data && this.data.status,
+      });
     },
     cancel() {
       this.$emit('cancel');
@@ -56,10 +60,10 @@ export default {
 <style lang="scss">
 .editTodo {
   height: 100%;
-  width: 300px;
+  width: 400px;
   position: absolute;
   top: 0;
-  right: -340px;
+  right: -440px;
   box-sizing: border-box;
 
   &__buttons {

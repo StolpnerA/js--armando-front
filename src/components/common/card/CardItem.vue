@@ -10,20 +10,36 @@
       @blur="confirmEdit"
       @keypress.enter.native="confirmEdit"
     />
-    <span v-else>{{ name || description && description.split('\n')[0] }}</span>
     <div
-      v-if="!isEdit && type !== 'todo'"
-      class="cardItem__icon edit"
-      @click.stop="editItem"
+      v-else
+      class="cardItem__text"
     >
-      <i class="el-icon-edit" />
-    </div>
-    <div
-      v-if="!isEdit"
-      class="cardItem__icon delete"
-      @click.stop="deleteItem"
-    >
-      <i class="el-icon-close" />
+      <div
+        v-if="type === 'todo'"
+        class="cardItem__icon check"
+        @click.stop="changeItemStatus"
+      >
+        <i
+          v-if="data.status"
+          class="el-icon-check" />
+      </div>
+      <div class="cardItem__text-name">
+        {{ name || description && description.split('\n')[0] }}
+      </div>
+      <div
+        v-if="!isEdit && type !== 'todo'"
+        class="cardItem__icon edit"
+        @click.stop="editItem"
+      >
+        <i class="el-icon-edit" />
+      </div>
+      <div
+        v-if="!isEdit"
+        class="cardItem__icon delete"
+        @click.stop="deleteItem"
+      >
+        <i class="el-icon-close" />
+      </div>
     </div>
   </div>
 </template>
@@ -65,9 +81,21 @@ export default {
         this.$refs.itemName.focus();
       });
     },
+    changeItemStatus() {
+      this.$emit('change-status', {
+        // eslint-disable-next-line no-underscore-dangle
+        todoId: this.data._id,
+        status: !this.data.status,
+        description: this.data.description,
+      });
+    },
     confirmEdit() {
       if (this.isEdit) {
-        this.$emit('confirm-edit', this.name);
+        this.$emit('confirm-edit', {
+          status: !this.data.status,
+          name: this.name,
+          description: this.description,
+        });
         this.isEdit = false;
       }
     },
@@ -80,41 +108,61 @@ export default {
 
 <style lang="scss">
 .cardItem {
+  width: 400px;
   position: relative;
   display: flex;
   align-items: center;
-  cursor: pointer;
-  padding: 20px;
-  height: 58px;
+  /*padding: 20px 120px 20px 20px;*/
+  height: 50px;
   box-sizing: border-box;
-  &:hover {
-    transition: background-color 0.3s;
-    background: #79bbff;
-    color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+
+  &__text {
+    width: 100%;
+    display: flex;
+    &-name {
+      width: 100%;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 50px;
+      padding: 0 20px;
+      &:hover {
+        transition: background-color 0.3s;
+        background: #79bbff;
+        color: #fff;
+      }
+    }
   }
   &__icon {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #fff;
+    color: #333;
+    height: 50px;
+    min-width: 50px;
+
     &:hover {
       transition: background-color 0.3s;
       background: #fff;
     }
+    &.check {
+      border-right: 1px solid #ddd;
+      &:hover {
+        background: #ddd;
+      }
+    }
     &.edit {
-      right: 35px;
       &:hover {
         color: #333;
       }
     }
     &.delete {
-      right: 10px;
-      &:hover {
-        color: #F56C6C;
-      }
+      color: #fff;
+      background: #F56C6C;
     }
   }
   &.edit {

@@ -32,7 +32,8 @@
           :data="item"
           :selected="selectedItem && selectedItem.index === index"
           @delete="removeCardItem(item._id)"
-          @confirm-edit="confirmEditCardItem($event, item._id, index)"
+          @change-status="changeStatusCardItem"
+          @confirm-edit="confirmEditCardItem($event, item._id)"
         />
       </div>
     </div>
@@ -92,7 +93,7 @@ export default {
     itemClick(index, item) {
       if (this.type === 'todo') {
         // eslint-disable-next-line
-        this.editDescription(item.description, item._id);
+        this.editDescription(item.description, item._id, item.status);
       }
       // eslint-disable-next-line
       this.selectItem(index, item._id);
@@ -111,10 +112,10 @@ export default {
         });
       }
     },
-    saveItem(description, id) {
+    saveItem({ description, todoId, status }) {
       if (this.editDescriptionData) {
         if (description) {
-          this.$emit('edit-item', description, id);
+          this.$emit('edit-item', { description, todoId, status });
         }
       } else if (description) {
         this.$emit('create-item', description);
@@ -143,11 +144,14 @@ export default {
       this.editDescriptionOpen = false;
       this.$emit('delete-item', id);
     },
-    confirmEditCardItem(name, id) {
-      this.$emit('edit-item', { name, id });
+    changeStatusCardItem(data) {
+      this.$emit('change-status', data);
     },
-    editDescription(description, id) {
-      this.editDescriptionData = { description, id };
+    confirmEditCardItem(data, id) {
+      this.$emit('edit-item', { name: data.name, id });
+    },
+    editDescription(description, id, status) {
+      this.editDescriptionData = { description, id, status };
       this.$nextTick(() => {
         this.openEditDescription();
       });
@@ -161,6 +165,7 @@ export default {
 
 <style lang="scss">
 .card {
+  width: 400px;
   overflow: visible;
   position: relative;
   .el-card__body {

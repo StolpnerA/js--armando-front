@@ -17,11 +17,11 @@ async function createTodo(description, taskId) {
   return data;
 }
 
-async function editTodo(description, todoId) {
+async function editTodo({ status, description, todoId }) {
   const { data } = await baseAxios({
     method: 'PUT',
     url: `/todo/${todoId}`,
-    data: { description },
+    data: { description, status },
   });
   return data;
 }
