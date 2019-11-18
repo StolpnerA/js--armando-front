@@ -4,6 +4,9 @@
       <div class="header__title">
         {{ $route.name }}
       </div>
+      <router-link to="/admin">
+        ADMIN
+      </router-link>
       <div
         v-if="!user.isAuthorized"
         class="header__button"
