@@ -24,17 +24,17 @@
           class="el-icon-check" />
       </div>
       <div class="cardItem__text-name">
-        {{ name || description && description.split('\n')[0] }}
+        {{ getItemName() }}
       </div>
       <div
-        v-if="!isEdit && type !== 'todo'"
+        v-if="!isEdit && type === 'task' "
         class="cardItem__icon edit"
         @click.stop="editItem"
       >
         <i class="el-icon-edit" />
       </div>
       <div
-        v-if="!isEdit"
+        v-if="!isEdit && type !== 'user'"
         class="cardItem__icon delete"
         @click.stop="deleteItem"
       >
@@ -75,6 +75,20 @@ export default {
     },
   },
   methods: {
+    getItemName() {
+      const { name, description } = this;
+      const { firstName, lastName, email } = this.data;
+      if (name) {
+        return name;
+      }
+      if (description) {
+        return description.split('\n')[0];
+      }
+      if (email && firstName && lastName) {
+        return `${firstName} ${lastName} ${email}`;
+      }
+      return '';
+    },
     editItem() {
       this.isEdit = true;
       this.$nextTick(() => {

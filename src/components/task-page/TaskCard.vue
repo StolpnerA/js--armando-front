@@ -4,6 +4,7 @@
     :data="tasks"
     :selected-item="selectedTask"
     :loading="tasksLoading"
+    type="task"
     @select-item="$emit('select', $event)"
     @create-item="createNewTask"
     @edit-item="editTaskData"
@@ -16,7 +17,7 @@
 <script>
 import Card from '@/components/common/card/Card.vue';
 import {
-  getTasks, createTask, editTask, deleteTask,
+  getTasks, createTask, editTask, deleteTask, getTasksByUserId,
 } from '@/helpers/api';
 
 export default {
@@ -25,6 +26,10 @@ export default {
     Card,
   },
   props: {
+    selectedUser: {
+      type: Object,
+      default: null,
+    },
     selectedTask: {
       type: Object,
       default: null,
@@ -37,6 +42,14 @@ export default {
       selectedTodo: null,
     };
   },
+  watch: {
+    selectedUser: {
+      async handler(value) {
+        this.tasks = await getTasksByUserId(value.id);
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.getTasksData();
   },
@@ -48,7 +61,9 @@ export default {
     },
     async getTasksData() {
       this.tasksLoading = true;
-      this.tasks = await getTasks();
+      this.tasks = this.$route.name === 'admin' && this.selectedUser
+        ? await getTasksByUserId(this.selectedUser.id)
+        : await getTasks();
       this.tasksLoading = false;
     },
     async createNewTask(name) {
