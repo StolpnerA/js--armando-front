@@ -39,6 +39,8 @@ export default {
       this.updateUserInfo({});
       this.authorizeUser(false);
       localStorage.userJwt = '';
+      this.$router.push({ name: 'home' });
+      this.closeDialog();
     },
   },
 };
