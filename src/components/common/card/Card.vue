@@ -38,7 +38,7 @@
       </div>
     </div>
     <edit-todo
-      v-if="editDescriptionOpen"
+      v-if="editDescriptionOpen && (selectedItem || addNewTodo)"
       :data="editDescriptionData"
       @save="saveItem"
       @cancel="cancelEditItem"
@@ -78,6 +78,7 @@ export default {
     return {
       editDescriptionOpen: false,
       editDescriptionData: {},
+      addNewTodo: false,
       newCardItem: false,
       newCardItemName: '',
       cardItems: this.data || [],
@@ -102,6 +103,7 @@ export default {
       if (this.type === 'todo') {
         this.editDescriptionData = null;
         this.editDescriptionOpen = false;
+        this.addNewTodo = true;
         this.$nextTick(() => {
           this.openEditDescription();
         });
@@ -118,6 +120,7 @@ export default {
           this.$emit('edit-item', { description, todoId, status });
         }
       } else if (description) {
+        this.addNewTodo = false;
         this.$emit('create-item', description);
       }
       this.editDescriptionOpen = false;
@@ -166,8 +169,10 @@ export default {
 <style lang="scss">
 .card {
   width: 400px;
+  margin: 20px;
   overflow: visible;
   position: relative;
+  max-height: 70vh;
   .el-card__body {
     padding: 0;
     height: 100%;
