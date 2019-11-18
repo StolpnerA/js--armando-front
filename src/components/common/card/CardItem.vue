@@ -112,7 +112,6 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  /*padding: 20px 120px 20px 20px;*/
   height: 50px;
   box-sizing: border-box;
   overflow: hidden;
@@ -128,6 +127,7 @@ export default {
       text-overflow: ellipsis;
       line-height: 50px;
       padding: 0 20px;
+      height: 50px;
       &:hover {
         transition: background-color 0.3s;
         background: #79bbff;

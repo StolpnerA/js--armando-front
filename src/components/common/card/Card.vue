@@ -194,7 +194,11 @@ export default {
   &__add {
     user-select: none;
     text-align: center;
-    padding: 20px;
+    min-height: 50px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #eee;
     cursor: pointer;
     transition: 0.3s;
