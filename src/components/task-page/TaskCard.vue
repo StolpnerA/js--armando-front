@@ -1,0 +1,78 @@
+<template>
+  <card
+    v-if="tasks"
+    :data="tasks"
+    :selected-item="selectedTask"
+    :loading="tasksLoading"
+    @select-item="$emit('select', $event)"
+    @create-item="createNewTask"
+    @edit-item="editTaskData"
+    @change-status="changeTaskStatus"
+    @delete-item="deleteTaskData"
+    @get-data="getTasksData"
+  />
+</template>
+
+<script>
+import Card from '@/components/common/card/Card.vue';
+import {
+  getTasks, createTask, editTask, deleteTask,
+} from '@/helpers/api';
+
+export default {
+  name: 'TaskCard',
+  components: {
+    Card,
+  },
+  props: {
+    selectedTask: {
+      type: Object,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      tasksLoading: false,
+      tasks: [],
+      selectedTodo: null,
+    };
+  },
+  mounted() {
+    this.getTasksData();
+  },
+  methods: {
+    clearTask() {
+      this.todo = [];
+      this.$emit('select', null);
+      this.selectedTodo = null;
+    },
+    async getTasksData() {
+      this.tasksLoading = true;
+      this.tasks = await getTasks();
+      this.tasksLoading = false;
+    },
+    async createNewTask(name) {
+      this.clearTask();
+      this.tasksLoading = true;
+      await createTask(name);
+      this.getTasksData();
+    },
+    async editTaskData(data) {
+      this.tasksLoading = true;
+      await editTask(data);
+      this.getTasksData();
+    },
+    async changeTaskStatus(data) {
+      this.tasksLoading = true;
+      await editTask(data);
+      this.getTasksData();
+    },
+    async deleteTaskData(id) {
+      this.clearTask();
+      this.tasksLoading = true;
+      await deleteTask(id);
+      this.getTasksData();
+    },
+  },
+};
+</script>

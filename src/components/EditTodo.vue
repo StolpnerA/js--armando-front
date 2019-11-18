@@ -1,6 +1,7 @@
 <template>
   <div class="editTodo">
     <el-input
+      ref="editTodo"
       v-model="textAreaText"
       resize="none"
       type="textarea"
@@ -41,6 +42,12 @@ export default {
     data(data) {
       this.textAreaText = data.description;
     },
+  },
+  mounted() {
+    this.$refs.editTodo.focus();
+  },
+  updated() {
+    this.$refs.editTodo.focus();
   },
   methods: {
     saveData() {
