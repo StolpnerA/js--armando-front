@@ -82,7 +82,7 @@ export default {
   .body {
     box-sizing: border-box;
     padding: 100px 40px 40px 40px;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     margin: 0 auto;
   }
   .header {

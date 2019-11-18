@@ -15,7 +15,7 @@
       />
     </div>
     <div
-      v-else-if="type !== 'user'"
+      v-else-if="type !== 'user' && $route.name !== 'admin'"
       class="card__add"
       @click="addNewCardItem"
     >
@@ -95,9 +95,11 @@ export default {
       switch (this.type) {
         // eslint-disable-next-line no-underscore-dangle
         case 'todo': this.editDescription(item.description, item._id, item.status);
+          // eslint-disable-next-line no-underscore-dangle
+          this.selectItem(index, item._id);
           break;
         // eslint-disable-next-line no-underscore-dangle
-        case 'tasks': this.selectItem(index, item._id);
+        case 'task': this.selectItem(index, item._id);
           break;
         // eslint-disable-next-line no-underscore-dangle
         case 'user': this.selectItem(index, item._id);

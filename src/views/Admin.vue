@@ -1,6 +1,8 @@
 <template>
   <div class="admin">
-    <users-card @select="selectItem({name: 'User', ...$event})" />
+    <users-card
+      :selected-user="selectedUser"
+      @select="selectItem({name: 'User', ...$event})" />
     <task-card
       v-if="selectedUser!== null"
       :selected-user="selectedUser"
