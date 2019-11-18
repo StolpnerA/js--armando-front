@@ -1,8 +1,6 @@
 const POSITIONS = ['CEO', 'Accountant'];
 
-const JWT_ERROR = 'jwt expired';
-
 export {
+  // eslint-disable-next-line
   POSITIONS,
-  JWT_ERROR,
 };

@@ -5,13 +5,7 @@
         {{ $route.name }}
       </div>
       <div
-        v-if="isUserInfoLoading"
-        class="header__button"
-      >
-        ...
-      </div>
-      <div
-        v-else-if="!user.isAuthorized"
+        v-if="!user.isAuthorized"
         class="header__button"
         @click="openLoginDialog"
       >
@@ -42,12 +36,9 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import LoginDialog from '@/components/dialogs/LoginDialog.vue';
 import UserDialog from '@/components/dialogs/UserDialog.vue';
-import { getUserInfo } from '@/helpers/api';
-import { JWT_ERROR } from '@/constants';
-
 
 export default {
   name: 'App',
@@ -57,7 +48,6 @@ export default {
   },
   data() {
     return {
-      isUserInfoLoading: false,
       isUserDialogOpen: false,
       isLoginDialogOpen: false,
     };
@@ -67,25 +57,7 @@ export default {
       user: state => state,
     }),
   },
-  mounted() {
-    const token = localStorage.userJwt;
-    if (token) {
-      this.getUserData(token).catch(e => {
-        if (e.response.data === JWT_ERROR) {
-          localStorage.userJwt = '';
-        }
-      });
-    }
-  },
   methods: {
-    ...mapMutations('user', ['updateUserInfo', 'authorizeUser']),
-    async getUserData(token) {
-      this.isUserInfoLoading = true;
-      const user = await getUserInfo(token);
-      this.updateUserInfo(user);
-      this.authorizeUser(true);
-      this.isUserInfoLoading = false;
-    },
     openUserDialog() {
       this.isUserDialogOpen = true;
     },
