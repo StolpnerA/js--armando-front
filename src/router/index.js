@@ -52,7 +52,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.userJwt;
-  if (token) {
+  if (token && !store.state.user.isAuthorized) {
     getUserFromServer(token, next);
   } else {
     next();
