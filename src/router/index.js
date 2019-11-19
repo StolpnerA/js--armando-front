@@ -29,6 +29,13 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import(/* webpackChunkName: "admin" */ '@/views/Admin.vue'),
+    beforeEnter(to, from, next) {
+      if (store.state.user.isAuthorized && store.state.user.userInfo.role === 'admin') {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    },
   },
   {
     path: '/tasks',
