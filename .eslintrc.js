@@ -15,6 +15,7 @@ module.exports = {
     'no-unused-expressions': ['error', { allowShortCircuit: true }],
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
+    'no-useless-return': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',
