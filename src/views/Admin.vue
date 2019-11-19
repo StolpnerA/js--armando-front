@@ -46,6 +46,10 @@ export default {
       } else {
         this[`selected${name}`] = null;
       }
+      if (name === 'User') {
+        this.selectedTodo = null;
+        this.selectedTask = null;
+      }
       if (name === 'Task') {
         this.selectedTodo = null;
       }
