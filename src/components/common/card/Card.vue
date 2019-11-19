@@ -15,7 +15,7 @@
       />
     </div>
     <div
-      v-else
+      v-else-if="type !== 'user' && $route.name !== 'admin'"
       class="card__add"
       @click="addNewCardItem"
     >
@@ -92,12 +92,20 @@ export default {
   },
   methods: {
     itemClick(index, item) {
-      if (this.type === 'todo') {
-        // eslint-disable-next-line
-        this.editDescription(item.description, item._id, item.status);
+      switch (this.type) {
+        // eslint-disable-next-line no-underscore-dangle
+        case 'todo': this.editDescription(item.description, item._id, item.status);
+          // eslint-disable-next-line no-underscore-dangle
+          this.selectItem(index, item._id);
+          break;
+        // eslint-disable-next-line no-underscore-dangle
+        case 'task': this.selectItem(index, item._id);
+          break;
+        // eslint-disable-next-line no-underscore-dangle
+        case 'user': this.selectItem(index, item._id);
+          break;
+        default: this.selectItem(index, item);
       }
-      // eslint-disable-next-line
-      this.selectItem(index, item._id);
     },
     addNewCardItem() {
       if (this.type === 'todo') {

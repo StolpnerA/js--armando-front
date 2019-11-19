@@ -8,15 +8,15 @@ async function getUserInfo() {
   return data;
 }
 
-async function getAllUsers() {
+async function getUsers() {
   const { data } = await baseAxios({
     method: 'GET',
-    url: '/user',
+    url: '/admin/users',
   });
   return data;
 }
 
 export {
   getUserInfo,
-  getAllUsers,
+  getUsers,
 };

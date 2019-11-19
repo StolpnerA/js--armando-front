@@ -4,6 +4,9 @@
       <div class="header__title">
         {{ $route.name }}
       </div>
+      <router-link to="/admin">
+        ADMIN
+      </router-link>
       <div
         v-if="!user.isAuthorized"
         class="header__button"
@@ -79,7 +82,7 @@ export default {
   .body {
     box-sizing: border-box;
     padding: 100px 40px 40px 40px;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     margin: 0 auto;
   }
   .header {

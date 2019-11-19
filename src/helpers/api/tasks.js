@@ -8,6 +8,14 @@ async function getTasks() {
   return data;
 }
 
+async function getTasksByUserId(id) {
+  const { data } = await baseAxios({
+    method: 'GET',
+    url: `/admin/tasks/user/${id}`,
+  });
+  return data;
+}
+
 async function createTask(name) {
   const { data } = await baseAxios({
     method: 'POST',
@@ -40,6 +48,7 @@ async function deleteTask(id) {
 
 export {
   getTasks,
+  getTasksByUserId,
   createTask,
   editTask,
   deleteTask,
