@@ -3,6 +3,9 @@
     v-loading="loading"
     class="card"
   >
+    <div class="card__title">
+      {{ type }}s
+    </div>
     <div
       v-if="newCardItem"
       class="card__edit"
@@ -176,11 +179,19 @@ export default {
 
 <style lang="scss">
 .card {
-  width: 400px;
-  margin: 20px;
+  min-width: 360px;
+  box-sizing: border-box;
+  margin: 15px;
   overflow: visible;
   position: relative;
   max-height: 70vh;
+  &__title {
+    position: absolute;
+    top: -30px;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
   .el-card__body {
     padding: 0;
     height: 100%;

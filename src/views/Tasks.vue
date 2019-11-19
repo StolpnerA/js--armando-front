@@ -47,6 +47,9 @@ export default {
 
 <style>
   .tasks {
+    width: 780px;
+    padding-right: 375px;
+    margin: 0 auto;
     display: flex;
   }
 </style>

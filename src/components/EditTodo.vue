@@ -66,11 +66,11 @@ export default {
 
 <style lang="scss">
 .editTodo {
+  width: 360px;
   height: 100%;
-  width: 400px;
   position: absolute;
   top: 0;
-  right: -440px;
+  right: -395px;
   box-sizing: border-box;
 
   &__buttons {
