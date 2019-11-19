@@ -122,7 +122,6 @@ export default {
 
 <style lang="scss">
 .cardItem {
-  width: 400px;
   position: relative;
   display: flex;
   align-items: center;

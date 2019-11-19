@@ -60,6 +60,9 @@ export default {
 
 <style>
   .admin {
+    width: 1150px;
+    padding-right: 420px;
+    margin: 0 auto;
     display: flex;
   }
 </style>
