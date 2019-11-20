@@ -9,7 +9,7 @@
     <div class="userDialog__blockInput">
       <span>Email</span>
       <el-input
-        :value="user.userInfo.email"
+        :value="user.email"
         placeholder="Email"
         disabled
       />
@@ -17,7 +17,7 @@
     <div class="userDialog__blockInput">
       <span>Role</span>
       <el-input
-        :value="user.userInfo.role"
+        :value="user.role"
         placeholder="Role"
         disabled
       />
@@ -25,7 +25,7 @@
     <div class="userDialog__blockInput">
       <span>Position</span>
       <el-input
-        :value="user.userInfo.position"
+        :value="user.position"
         placeholder="Position"
         disabled
       />
@@ -76,14 +76,15 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { editUser } from '@/helpers/api';
-
 export default {
   name: 'UserDialog',
   props: {
     isOpen: {
       type: Boolean,
+      required: true,
+    },
+    user: {
+      type: Object,
       required: true,
     },
   },
@@ -97,21 +98,17 @@ export default {
     };
   },
   computed: {
-    ...mapState('user', {
-      user: state => state,
-    }),
     isChanged() {
-      return this.firstName !== this.user.userInfo.firstName
-        || this.lastName !== this.user.userInfo.lastName
+      return this.firstName !== this.user.firstName
+        || this.lastName !== this.user.lastName
         || this.password;
     },
   },
   mounted() {
-    this.firstName = this.user.userInfo.firstName;
-    this.lastName = this.user.userInfo.lastName;
+    this.firstName = this.user.firstName;
+    this.lastName = this.user.lastName;
   },
   methods: {
-    ...mapMutations('user', ['updateUserInfo', 'authorizeUser']),
     handlerInput(field, value) {
       this[field] = value;
     },
@@ -119,22 +116,17 @@ export default {
       this.$emit('close');
     },
     logout() {
-      this.updateUserInfo({});
-      this.authorizeUser(false);
-      localStorage.userJwt = '';
-      this.$router.push({ name: 'home' });
-      this.closeDialog();
+      this.$emit('logout');
     },
     async save() {
       this.passwordError = this.password.length !== 0 && this.password.length < 8;
       if (this.passwordError) return;
-      const user = await editUser({
+
+      this.$emit('update', {
         firstName: this.firstName,
         lastName: this.lastName,
         password: this.password || undefined,
       });
-      this.updateUserInfo(user);
-      this.closeDialog();
     },
   },
 };
