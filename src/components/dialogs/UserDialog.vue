@@ -17,9 +17,10 @@
     <div class="userDialog__blockInput">
       <span>Role</span>
       <el-select
-        :value="user.role"
+        :value="selectedRole"
         placeholder="Role"
-        :disabled="role !== 'admin'"
+        :disabled="!isChangeUserByAdmin"
+        @change="handlerInput('selectedRole', $event)"
       >
         <el-option
           v-for="item in roles"
@@ -32,9 +33,10 @@
     <div class="userDialog__blockInput">
       <span>Position</span>
       <el-select
-        :value="user.position"
+        :value="selectedPosition"
         placeholder="Position"
-        :disabled="role !== 'admin'"
+        :disabled="!isChangeUserByAdmin"
+        @change="handlerInput('selectedPosition', $event)"
       >
         <el-option
           v-for="item in positions"
@@ -60,7 +62,7 @@
       />
     </div>
     <div
-      v-if="role !== 'admin'"
+      v-if="!isChangeUserByAdmin"
       class="userDialog__blockInput"
     >
       <span>Password</span>
@@ -92,7 +94,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { ROLES, POSITIONS } from '@/constants';
 
 export default {
@@ -106,12 +107,18 @@ export default {
       type: Object,
       required: true,
     },
+    isChangeUserByAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isDialogOpen: this.isOpen,
-      firstName: null,
-      lastName: null,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      selectedRole: this.user.role,
+      selectedPosition: this.user.position,
       password: '',
       passwordError: false,
       roles: ROLES,
@@ -119,18 +126,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('user', {
-      role: state => state.userInfo.role,
-    }),
     isChanged() {
       return this.firstName !== this.user.firstName
         || this.lastName !== this.user.lastName
         || this.password;
     },
-  },
-  mounted() {
-    this.firstName = this.user.firstName;
-    this.lastName = this.user.lastName;
   },
   methods: {
     handlerInput(field, value) {
@@ -150,6 +150,8 @@ export default {
         firstName: this.firstName,
         lastName: this.lastName,
         password: this.password || undefined,
+        role: this.selectedRole,
+        position: this.selectedPosition,
       });
     },
   },
