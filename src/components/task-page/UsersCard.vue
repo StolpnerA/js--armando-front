@@ -6,6 +6,7 @@
     :loading="usersLoading"
     type="user"
     @select-item="$emit('select', $event)"
+    @update-user-data="getUsersData"
   />
 </template>
 

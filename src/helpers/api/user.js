@@ -29,8 +29,31 @@ async function editUser({ firstName, lastName, password }) {
   return data;
 }
 
+async function editUserByAdmin(
+  userId,
+  {
+    firstName,
+    lastName,
+    position,
+    role,
+  }
+) {
+  const { data } = await baseAxios({
+    method: 'PUT',
+    url: `/admin/user/${userId}/edit`,
+    data: {
+      firstName,
+      lastName,
+      position,
+      role,
+    },
+  });
+  return data;
+}
+
 export {
   getUserInfo,
   getUsers,
   editUser,
+  editUserByAdmin,
 };

@@ -83,6 +83,7 @@
         Save
       </el-button>
       <el-button
+        v-if="!isChangeUserByAdmin"
         class="userDialog__action_logout"
         type="danger"
         @click="logout"
@@ -129,6 +130,8 @@ export default {
     isChanged() {
       return this.firstName !== this.user.firstName
         || this.lastName !== this.user.lastName
+        || this.selectedRole !== this.user.role
+        || this.selectedPosition !== this.user.position
         || this.password;
     },
   },

@@ -21,13 +21,17 @@
       >
         <i
           v-if="data.status"
-          class="el-icon-check" />
+          class="el-icon-check"
+        />
       </div>
-      <div class="cardItem__text-name">
+      <div
+        class="cardItem__text-name"
+        @click="$emit('item-click')"
+      >
         {{ getItemName() }}
       </div>
       <div
-        v-if="!isEdit && type === 'task' "
+        v-if="!isEdit && type !== 'todo'"
         class="cardItem__icon edit"
         @click.stop="editItem"
       >
@@ -41,12 +45,26 @@
         <i class="el-icon-close" />
       </div>
     </div>
+    <user-dialog
+      v-if="isUserDialogOpen"
+      :is-open="isUserDialogOpen"
+      :user="data"
+      is-change-user-by-admin
+      @update="updateUser"
+      @close="isUserDialogOpen = false"
+    />
   </div>
 </template>
 
 <script>
+import UserDialog from '@/components/dialogs/UserDialog.vue';
+import { editUserByAdmin } from '@/helpers/api';
+
 export default {
   name: 'CardItem',
+  components: {
+    UserDialog,
+  },
   props: {
     type: {
       type: String,
@@ -66,6 +84,7 @@ export default {
       name: this.data.name,
       description: this.data.description,
       isEdit: false,
+      isUserDialogOpen: false,
     };
   },
   watch: {
@@ -90,10 +109,14 @@ export default {
       return '';
     },
     editItem() {
-      this.isEdit = true;
-      this.$nextTick(() => {
-        this.$refs.itemName.focus();
-      });
+      if (this.type === 'user') {
+        this.isUserDialogOpen = true;
+      } else {
+        this.isEdit = true;
+        this.$nextTick(() => {
+          this.$refs.itemName.focus();
+        });
+      }
     },
     changeItemStatus() {
       this.$emit('change-status', {
@@ -115,6 +138,12 @@ export default {
     },
     deleteItem() {
       this.$emit('delete');
+    },
+    async updateUser(value) {
+      // eslint-disable-next-line
+      await editUserByAdmin(this.data._id, value);
+      this.$emit('update-user-data');
+      this.isUserDialogOpen = false;
     },
   },
 };
@@ -185,7 +214,7 @@ export default {
     background: #409EFF;
     color: #fff;
   }
-  .el-input {
+  > .el-input {
     height: 100%;
       input {
         background: #79bbff;

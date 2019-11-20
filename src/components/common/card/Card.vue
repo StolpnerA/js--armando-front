@@ -34,7 +34,6 @@
       <div
         v-for="(item, index) in sortedData"
         :key="'cardItem_'+item._id"
-        @click="itemClick(index, item)"
       >
         <card-item
           :type="type"
@@ -43,6 +42,8 @@
           @delete="removeCardItem(item._id)"
           @change-status="changeStatusCardItem"
           @confirm-edit="confirmEditCardItem($event, item._id)"
+          @item-click="itemClick(index, item)"
+          @update-user-data="$emit('update-user-data')"
         />
       </div>
     </div>
