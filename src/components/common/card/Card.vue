@@ -4,6 +4,12 @@
     class="card"
   >
     <div class="card__title">
+      <span
+        v-if="$route.name === 'tasks' ? type !== 'task' : type !== 'user'"
+        @click="back"
+      >
+        <i class="el-icon-arrow-left" />
+      </span>
       {{ type }}s
     </div>
     <div
@@ -170,6 +176,9 @@ export default {
         this.openEditDescription();
       });
     },
+    back() {
+      this.$emit('select-item', { clear: true });
+    },
     selectItem(index, id) {
       this.$emit('select-item', { index, id });
     },
@@ -184,13 +193,24 @@ export default {
   margin: 15px;
   overflow: visible;
   position: relative;
+  height: 70vh;
   max-height: 70vh;
   &__title {
+    background: #fff;
     position: absolute;
     top: -30px;
     width: 100%;
     text-align: center;
     text-transform: uppercase;
+    line-height: 20px;
+    span {
+      display: none;
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+      line-height: 20px;
+      font-size: 20px;
+    }
   }
   .el-card__body {
     padding: 0;
@@ -229,6 +249,15 @@ export default {
     &:hover {
       color: #fff;
       background: #409EFF
+    }
+  }
+}
+@media all and (max-width: 1200px) {
+  .card {
+    &__title {
+      span {
+        display: block;
+      }
     }
   }
 }

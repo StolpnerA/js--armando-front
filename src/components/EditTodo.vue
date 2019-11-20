@@ -66,6 +66,7 @@ export default {
 
 <style lang="scss">
 .editTodo {
+  border-radius: 4px;
   width: 360px;
   height: 100%;
   position: absolute;
@@ -93,6 +94,16 @@ export default {
         font-weight: bold;
       }
     }
+  }
+}
+@media all and (max-width: 1200px)  {
+  .editTodo {
+    box-shadow: 0 0 30px rgba(100, 100, 100, 0.7);
+    top: 2%;
+    left: 2%;
+    height: 96%;
+    width: 96%;
+    right: auto;
   }
 }
 </style>

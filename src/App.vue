@@ -80,7 +80,7 @@ body {
 }
 .body {
   box-sizing: border-box;
-  padding: 100px 40px 40px 40px;
+  padding-top: 100px;
   margin: 0 auto;
 }
 </style>
