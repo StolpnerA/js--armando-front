@@ -31,7 +31,9 @@ export default {
     };
   },
   methods: {
-    selectItem({ name, index, id }) {
+    selectItem({
+      name, index, id, clear,
+    }) {
       if (id && index !== undefined) {
         this[`selected${name}`] = { index, id };
       } else {
@@ -40,16 +42,31 @@ export default {
       if (name === 'Task') {
         this.selectedTodo = null;
       }
+      if (name === 'Todo' && clear) {
+        this.selectedTask = null;
+      }
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
   .tasks {
+    position: relative;
     width: 780px;
     padding-right: 375px;
     margin: 0 auto;
     display: flex;
   }
+@media all and (max-width: 1200px) {
+  .tasks {
+    width: 360px;
+    padding: 0;
+    .card {
+      position: absolute;
+      left: 0;
+      margin: 0;
+    }
+  }
+}
 </style>
