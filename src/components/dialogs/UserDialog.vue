@@ -16,19 +16,32 @@
     </div>
     <div class="userDialog__blockInput">
       <span>Role</span>
-      <el-input
+      <el-select
         :value="user.role"
         placeholder="Role"
         disabled
-      />
+      >
+        <el-option
+          v-for="item in roles"
+          :key="item.value"
+          :value="item.value"
+          :label="item.label"
+        />
+      </el-select>
     </div>
     <div class="userDialog__blockInput">
       <span>Position</span>
-      <el-input
+      <el-select
         :value="user.position"
         placeholder="Position"
         disabled
-      />
+      >
+        <el-option
+          v-for="item in positions"
+          :key="item"
+          :value="item"
+        />
+      </el-select>
     </div>
     <div class="userDialog__blockInput">
       <span>First Name</span>
@@ -76,6 +89,8 @@
 </template>
 
 <script>
+import { ROLES, POSITIONS } from '@/constants';
+
 export default {
   name: 'UserDialog',
   props: {
@@ -95,6 +110,8 @@ export default {
       lastName: null,
       password: '',
       passwordError: false,
+      roles: ROLES,
+      positions: POSITIONS,
     };
   },
   computed: {
