@@ -19,7 +19,7 @@
       <el-select
         :value="user.role"
         placeholder="Role"
-        disabled
+        :disabled="role !== 'admin'"
       >
         <el-option
           v-for="item in roles"
@@ -34,7 +34,7 @@
       <el-select
         :value="user.position"
         placeholder="Position"
-        disabled
+        :disabled="role !== 'admin'"
       >
         <el-option
           v-for="item in positions"
@@ -59,7 +59,10 @@
         @input="handlerInput('lastName', $event)"
       />
     </div>
-    <div class="userDialog__blockInput">
+    <div
+      v-if="role !== 'admin'"
+      class="userDialog__blockInput"
+    >
       <span>Password</span>
       <el-input
         :value="password"
@@ -89,6 +92,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { ROLES, POSITIONS } from '@/constants';
 
 export default {
@@ -115,6 +119,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('user', {
+      role: state => state.userInfo.role,
+    }),
     isChanged() {
       return this.firstName !== this.user.firstName
         || this.lastName !== this.user.lastName
