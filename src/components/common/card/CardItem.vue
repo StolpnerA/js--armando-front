@@ -29,6 +29,18 @@
         @click="$emit('item-click')"
       >
         {{ getItemName() }}
+        <span
+          v-if="data.createdAt"
+          class="cardItem__text-createdAt"
+        >
+          created at: {{ formatDate(new Date(data.createdAt)) }}
+        </span>
+        <span
+          v-if="data.changedAt"
+          class="cardItem__text-changedAt"
+        >
+          changed at: {{ formatDate(new Date(data.changedAt)) }}
+        </span>
       </div>
       <div
         v-if="!isEdit && type !== 'todo'"
@@ -57,8 +69,10 @@
 </template>
 
 <script>
+import { format } from 'date-fns';
 import UserDialog from '@/components/dialogs/UserDialog.vue';
 import { editUserByAdmin } from '@/helpers/api';
+import { DATETIME_FORMAT_SLASH } from '@/constants';
 
 export default {
   name: 'CardItem',
@@ -145,6 +159,12 @@ export default {
       this.$emit('update-user-data');
       this.isUserDialogOpen = false;
     },
+    formatDate(date) {
+      return format(
+        date,
+        DATETIME_FORMAT_SLASH,
+      );
+    },
   },
 };
 </script>
@@ -170,11 +190,27 @@ export default {
       line-height: 50px;
       padding: 0 20px;
       height: 50px;
+      position: relative;
+
       &:hover {
         transition: background-color 0.3s;
         background: #79bbff;
         color: #fff;
       }
+    }
+
+    &-createdAt {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 8px;
+    }
+
+    &-changedAt {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      font-size: 8px;
     }
   }
   &__icon {

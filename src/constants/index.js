@@ -11,7 +11,10 @@ const ROLES = [
   },
 ];
 
+const DATETIME_FORMAT_SLASH = 'dd/MM/yyyy HH:mm';
+
 export {
   POSITIONS,
   ROLES,
+  DATETIME_FORMAT_SLASH,
 };
