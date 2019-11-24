@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <router-link to="/tasks">
+    <router-link
+      v-if="user.isAuthorized"
+      to="/tasks"
+    >
       Tasks
     </router-link>
     <router-link to="/about">
@@ -10,9 +13,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'Home',
+  computed: {
+    ...mapState('user', {
+      user: state => state,
+    }),
+  },
 };
 </script>
 

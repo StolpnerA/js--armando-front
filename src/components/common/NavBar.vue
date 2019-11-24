@@ -8,6 +8,7 @@
     </router-link>
     <div class="navBar__items">
       <router-link
+        v-if="user.isAuthorized"
         class="navBar__link"
         :class="{active: $route.name === 'tasks'}"
         to="/tasks"
@@ -15,6 +16,7 @@
         Tasks
       </router-link>
       <router-link
+        v-if="user.isAuthorized && user.userInfo.role === 'admin'"
         class="navBar__link"
         :class="{active: $route.name === 'admin'}"
         to="/admin"
@@ -46,6 +48,7 @@
     <el-collapse v-model="openedCollapse">
       <el-collapse-item>
         <router-link
+          v-if="user.isAuthorized"
           class="navBar__link"
           :class="{active: $route.name === 'tasks'}"
           to="/tasks"
@@ -54,6 +57,7 @@
           Tasks
         </router-link>
         <router-link
+          v-if="user.isAuthorized && user.userInfo.role === 'admin'"
           class="navBar__link"
           :class="{active: $route.name === 'admin'}"
           to="/admin"
